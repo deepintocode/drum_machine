@@ -3,46 +3,38 @@ import DrumPad from './DrumPad';
 
 import './DrumMachine.css'
 
+const sounds = {
+    Q: 'Kick',
+    W: 'Snare',
+    E: 'Tom',
+    A: 'Closed HH',
+    S: 'Open HH',
+    D: 'Crash',
+    Z: 'Ride',
+    X: 'Clap',
+    C: 'Stick',
+}
+
 class DrumMachine extends Component {
     state = {
         sound: null
     }
-    playSound= (e) => {
-        e.target.querySelector('audio').play();
-        const sound = e.currentTarget.id.charAt(0).toUpperCase() + e.currentTarget.id.slice(1);
-        this.setState({ sound })
+    isLetter (c) {
+        return c.toString().toLowerCase() !== c.toString().toUpperCase();
     }
-    handleKeyDown (e) {
-        switch(e.keyCode) {
-            case 81:
-            document.querySelector('#Q').play();
-            break;
-            case 87:
-            document.querySelector('#W').play();
-            break;
-            case 69:
-            document.querySelector('#E').play();
-            break;
-            case 65:
-            document.querySelector('#A').play();
-            break;
-            case 83:
-            document.querySelector('#S').play();
-            break;
-            case 68:
-            document.querySelector('#D').play();
-            break;
-            case 90:
-            document.querySelector('#Z').play();
-            break;
-            case 88:
-            document.querySelector('#X').play();
-            break;
-            case 67:
-            document.querySelector('#C').play();
-            break;
-            default:
-            return null;
+    playSound = (e) => {
+        e.target.querySelector('audio').play();
+        const sound = sounds[e.target.textContent];
+        this.setState({ sound });
+    }
+    handleKeyDown = (e) => {
+        if (this.isLetter(String.fromCharCode(e.which))) {
+            const query = `#${(String.fromCharCode(e.which))}`;
+            const sound = sounds[document.querySelector(query).id];
+            if (document.querySelector(query)) {
+                document.querySelector(query).play();
+                this.setState({ sound });
+            }
         }
     }
     displaySound() {
@@ -50,6 +42,9 @@ class DrumMachine extends Component {
     }
     componentWillMount() {
         document.addEventListener('keydown', this.handleKeyDown);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
     }
     render() {
         return ( <div id="drum-machine">
