@@ -30,15 +30,12 @@ class DrumMachine extends Component {
     handleKeyDown = (e) => {
         if (this.isLetter(String.fromCharCode(e.which))) {
             const query = `#${(String.fromCharCode(e.which))}`;
-            const sound = sounds[document.querySelector(query).id];
             if (document.querySelector(query)) {
+                const sound = sounds[document.querySelector(query).id];
                 document.querySelector(query).play();
                 this.setState({ sound });
             }
         }
-    }
-    displaySound() {
-
     }
     componentWillMount() {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -60,7 +57,7 @@ class DrumMachine extends Component {
             <DrumPad sound="stick" audio="/drum_samples/stick.wav" keyboard="C" playSound={this.playSound}/>
         </div>
         <div id="display">
-            <p>{this.state.sound}</p>
+            {this.state.sound && <p>Sound: {this.state.sound}</p>}
         </div>
     </div>
     )

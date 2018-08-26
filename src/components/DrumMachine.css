@@ -1,4 +1,21 @@
+#drum-machine {
+    position: absolute;
+    max-width: 50%;
+    top: 50px;
+    right: 50px;
+    display: flex;
+}
 #drum-pads {
+    cursor: pointer;
+    width: 300px;
     display: grid;
+    grid-gap: 2px;
     grid-template-columns: 1fr 1fr 1fr;
+}
+#display {
+    width: 200px;
+    text-align: center ;
+    align-self: center;
+    margin-left: 5px;
+    background-color: rgba(255,255, 255, 0.8);
 }
